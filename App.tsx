@@ -56,7 +56,7 @@ export default function App() {
   return (
     <SafeAreaProvider style={s.safe}>
       <ScrollView style={s.scroll}>
-        <Text style={s.title}>SolTraq</Text>
+        <Text style={s.title}>$ol_traq</Text>
         <Text style={s.subtitle}>Explore any Solana wallet</Text>
 
         <View style={s.inputContainer}>

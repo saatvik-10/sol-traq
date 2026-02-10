@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "SolScan",
-    "slug": "SolScan",
+    "name": "SolTraq",
+    "slug": "sol-traq",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e3425f91-8926-4f7a-ae69-d75b6af05bc5"
+      }
+    },
+    "owner": "saatvik10s-organization"
   }
 }
