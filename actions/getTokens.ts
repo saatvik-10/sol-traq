@@ -1,7 +1,7 @@
 import { rpc } from '../handler/rpc';
 
 export const getTokens = async (addr: string) => {
-  const res = await rpc('getTokenAccountByOwner', [
+  const res = await rpc('getTokenAccountsByOwner', [
     addr,
     { programId: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA' },
     { encoding: 'jsonParsed' },
