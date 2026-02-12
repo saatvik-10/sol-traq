@@ -167,4 +167,24 @@ export const s = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
   },
+  tabBar: {
+    flexDirection: 'row',
+    backgroundColor: '#16161D',
+    borderTopWidth: 1,
+    borderTopColor: '#2A2A35',
+    paddingBottom: 8,
+    paddingTop: 12,
+  },
+  tab: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 4,
+  },
+  tabLabel: {
+    color: '#6B7280',
+    fontSize: 12,
+  },
+  tabActive: {
+    color: '#14F195',
+  },
 });
