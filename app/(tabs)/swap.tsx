@@ -55,14 +55,38 @@ export default function SwapScreen() {
         </View>
         <View style={s.cardFooter}>
           <Text style={s.balanceText}>Balance: 0.0661 {fromToken}</Text>
-          <Text style={s.usdText}>$499.749</Text>
-        </View>
-        <View style={s.arrowContainer}>
-          <TouchableOpacity style={s.swapArrow} onPress={swapTokens}>
-            <Ionicons name='arrow-down' size={20} color='#FFF' />
-          </TouchableOpacity>
         </View>
       </View>
+
+      <View style={s.arrowContainer}>
+        <TouchableOpacity style={s.swapArrow} onPress={swapTokens}>
+          <Ionicons name='swap-vertical-outline' size={22} color='#000' />
+        </TouchableOpacity>
+      </View>
+
+      <View style={[s.card, { marginBottom: 10 }]}>
+        <View style={s.cardHeader}>
+          <TouchableOpacity style={s.tokenSelector}>
+            <View style={[s.tokenIcon, { backgroundColor: '#2775CA' }]}>
+              <Text style={s.tokenIconText}>U</Text>
+            </View>
+            <Text style={s.tokenName}>{toToken}</Text>
+            <Ionicons name='chevron-down' size={18} color='#888' />
+          </TouchableOpacity>
+          <TextInput
+            style={s.amountInput}
+            value={toAmount}
+            onChangeText={setToAmount}
+            keyboardType='numeric'
+            placeholder='0'
+            placeholderTextColor='#666'
+          />
+        </View>
+        <View style={s.cardFooter}>
+          <Text style={s.usdText}>$499.749</Text>
+        </View>
+      </View>
+
       <TouchableOpacity style={s.swapBtn} onPress={handleSwap}>
         <Text style={s.swapBtnText}>Swap</Text>
       </TouchableOpacity>
