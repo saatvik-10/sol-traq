@@ -11,6 +11,7 @@ import {
   Linking,
 } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
 import { getBalance } from '../../actions/getBalance';
 import { getTokens } from '../../actions/getTokens';
 import { getTxns } from '../../actions/getTxns';
@@ -18,6 +19,7 @@ import { short, timeAgo } from '../../utils/lib';
 import { s } from '../../styles';
 
 export default function WalletScreen() {
+  const route = useRouter();
   const [address, setAddress] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [balance, setBalance] = useState<number | null>(null);
@@ -111,10 +113,14 @@ export default function WalletScreen() {
               keyExtractor={(t) => t.mint}
               scrollEnabled={false}
               renderItem={({ item }) => (
-                <View style={s.row}>
+                <TouchableOpacity
+                  style={s.row}
+                  onPress={() => route.push(`/token/${item.mint}`)}
+                  activeOpacity={0.7}
+                >
                   <Text style={s.mint}>{short(item.mint, 6)}</Text>
                   <Text style={s.amount}>{item.amount}</Text>
-                </View>
+                </TouchableOpacity>
               )}
             />
           </>
