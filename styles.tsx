@@ -7,6 +7,7 @@ export const s = StyleSheet.create({
   },
   scroll: {
     flex: 1,
+    backgroundColor: '#0D0D12',
     paddingHorizontal: 24,
     paddingTop: 60,
   },
@@ -26,7 +27,6 @@ export const s = StyleSheet.create({
     marginBottom: 28,
     fontWeight: '400',
   },
-
   inputContainer: {
     backgroundColor: '#16161D',
     borderRadius: 16,
@@ -41,7 +41,6 @@ export const s = StyleSheet.create({
     paddingVertical: 14,
     fontWeight: '400',
   },
-
   btnRow: {
     flexDirection: 'row',
     gap: 12,
@@ -82,13 +81,12 @@ export const s = StyleSheet.create({
     fontSize: 15,
     fontWeight: '500',
   },
-
   card: {
     backgroundColor: '#16161D',
     borderRadius: 24,
-    padding: 28,
+    padding: 18,
     alignItems: 'center',
-    marginTop: 28,
+    marginTop: 18,
     borderWidth: 1,
     borderColor: '#2A2A35',
   },
@@ -127,7 +125,6 @@ export const s = StyleSheet.create({
     borderRadius: 8,
     overflow: 'hidden',
   },
-
   section: {
     color: '#FFFFFF',
     fontSize: 20,
@@ -136,7 +133,6 @@ export const s = StyleSheet.create({
     marginBottom: 16,
     letterSpacing: -0.3,
   },
-
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -228,7 +224,7 @@ export const s = StyleSheet.create({
     color: '#FFFFFF',
   },
   amountInput: {
-    fontSize: 40,
+    fontSize: 20,
     fontWeight: '400',
     color: '#FFFFFF',
     textAlign: 'right',
@@ -249,13 +245,13 @@ export const s = StyleSheet.create({
     color: '#666666',
   },
   swapArrow: {
-    backgroundColor: '#0D0D12',
+    backgroundColor: '#fff',
     width: 44,
     height: 44,
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 3,
+    borderWidth: 1,
     borderColor: '#0D0D12',
   },
   swapBtn: {
