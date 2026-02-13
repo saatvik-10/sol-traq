@@ -36,6 +36,9 @@
         "projectId": "e3425f91-8926-4f7a-ae69-d75b6af05bc5"
       }
     },
-    "owner": "saatvik10s-organization"
+    "owner": "saatvik10s-organization",
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
