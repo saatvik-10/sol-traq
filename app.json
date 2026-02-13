@@ -4,6 +4,7 @@
     "slug": "sol-traq",
     "version": "1.0.0",
     "orientation": "portrait",
+    "scheme": "sol-traq",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
