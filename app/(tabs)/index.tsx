@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { getBalance } from '../../actions/getBalance';
 import { getTokens } from '../../actions/getTokens';
@@ -89,7 +89,7 @@ export default function WalletScreen() {
   };
 
   return (
-    <SafeAreaProvider style={s.safe}>
+    <SafeAreaView style={s.safe} edges={['top']}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
@@ -228,6 +228,6 @@ export default function WalletScreen() {
           <View style={{ height: 80 }} />
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaProvider>
+    </SafeAreaView>
   );
 }
