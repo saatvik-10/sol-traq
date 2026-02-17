@@ -1,4 +1,4 @@
-import { useWalletStore } from '../src/stores/wallet-store';
+import { useWalletStore } from '../stores/wallet-store';
 
 const rpc = async (method: string, params: any[]) => {
   const isDevnet = useWalletStore.getState().isDevnet;

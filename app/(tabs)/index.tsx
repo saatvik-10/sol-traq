@@ -19,7 +19,7 @@ import { getTokens } from '../../actions/getTokens';
 import { getTxns } from '../../actions/getTxns';
 import { short, timeAgo } from '../../utils/lib';
 import { s } from '../../styles';
-import { useWalletStore } from '../../src/stores/wallet-store';
+import { useWalletStore } from '../../stores/wallet-store';
 
 export default function WalletScreen() {
   const route = useRouter();
