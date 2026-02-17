@@ -1,4 +1,4 @@
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useWalletStore } from '../../stores/wallet-store';
 import { s } from '../../styles';
@@ -10,8 +10,7 @@ interface Props {
 export default function FavoriteButton({ address }: Props) {
   const addFavorite = useWalletStore((s) => s.addFavorite);
   const removeFavorite = useWalletStore((s) => s.removeFavorite);
-  const isFavorite = useWalletStore((s) => s.isFavorite);
-  const favorited = isFavorite(address);
+  const favorited = useWalletStore((s) => s.favorites.includes(address));
 
   return (
     <TouchableOpacity
