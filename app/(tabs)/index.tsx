@@ -20,6 +20,7 @@ import { getTxns } from '../../actions/getTxns';
 import { short, timeAgo } from '../../utils/lib';
 import { s } from '../../styles';
 import { useWalletStore } from '../../stores/wallet-store';
+import FavoriteButton from '../components/FavoritesBtn';
 
 export default function WalletScreen() {
   const route = useRouter();
@@ -159,6 +160,9 @@ export default function WalletScreen() {
 
           {balance !== null && (
             <View style={s.card}>
+              <View style={s.favoriteWrapper}>
+                <FavoriteButton address={address.trim()} />
+              </View>
               <Text style={s.label}>SOL Balance</Text>
               <Text style={s.balance}>{balance.toFixed(4)}</Text>
               <Text style={s.sol}>SOL</Text>

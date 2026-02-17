@@ -90,6 +90,14 @@ export const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#2A2A35',
   },
+  settingsCard: {
+    backgroundColor: '#16161D',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#2A2A35',
+    padding: 4,
+    marginBottom: 24,
+  },
   label: {
     color: '#6B7280',
     fontSize: 13,
@@ -449,5 +457,13 @@ export const s = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+  },
+  button: {
+    padding: 8,
+  },
+  favoriteWrapper: {
+    position: 'absolute',
+    top: 12,
+    right: 12,
   },
 });
