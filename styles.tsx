@@ -290,6 +290,8 @@ export const s = StyleSheet.create({
   },
   header: {
     marginBottom: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   cardLabel: {
     color: '#888',
@@ -333,5 +335,58 @@ export const s = StyleSheet.create({
     color: '#9945FF',
     fontSize: 14,
     fontWeight: '600',
+  },
+  networkToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#16161D',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#2A2A35',
+    gap: 6,
+  },
+  networkDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#14F195',
+  },
+  networkDotDevnet: {
+    backgroundColor: '#F59E0B',
+  },
+  networkText: {
+    color: '#9CA3AF',
+    fontSize: 12,
+    fontWeight: '500',
+  },
+  historySection: {
+    marginTop: 24,
+  },
+  historyTitle: {
+    color: '#6B7280',
+    fontSize: 13,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: 12,
+  },
+  historyItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#16161D',
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: '#2A2A35',
+    gap: 12,
+  },
+  historyAddress: {
+    flex: 1,
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontFamily: 'monospace',
   },
 });
