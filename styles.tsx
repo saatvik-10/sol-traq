@@ -508,4 +508,26 @@ export const s = StyleSheet.create({
     color: '#EF4444',
     fontSize: 14,
   },
+  disconnected: {
+    backgroundColor: '#9945FF',
+  },
+  connected: {
+    backgroundColor: '#14F19520',
+    borderWidth: 1,
+    borderColor: '#14F195',
+  },
+  connecting: {
+    backgroundColor: '#333',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  connectedText: {
+    color: '#14F195',
+    fontSize: 14,
+    fontWeight: '600',
+    fontFamily: 'monospace',
+  },
 });
