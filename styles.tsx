@@ -466,4 +466,46 @@ export const s = StyleSheet.create({
     top: 12,
     right: 12,
   },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 100,
+  },
+  emptyTitle: {
+    color: '#FFFFFF',
+    fontSize: 20,
+    fontWeight: '600',
+    marginTop: 16,
+  },
+  emptyText: {
+    color: '#6B7280',
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 8,
+    paddingHorizontal: 40,
+  },
+  cardLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    flex: 1,
+  },
+  cardAddress: {
+    color: '#9945FF',
+    fontSize: 14,
+    fontFamily: 'monospace',
+  },
+  cardRight: {
+    alignItems: 'flex-end',
+  },
+  cardBalance: {
+    color: '#14F195',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  cardError: {
+    color: '#EF4444',
+    fontSize: 14,
+  },
 });
