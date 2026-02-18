@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import '../lib/polyfills';
 
 export default function RootLayout() {
   return (
