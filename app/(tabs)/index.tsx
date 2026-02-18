@@ -20,7 +20,7 @@ import { getTxns } from '../../actions/getTxns';
 import { short, timeAgo } from '../../utils/lib';
 import { s } from '../../styles';
 import { useWalletStore } from '../../stores/wallet-store';
-import FavoriteButton from '../components/FavoritesBtn';
+import FavoriteButton from '../../components/FavoritesBtn';
 
 export default function WalletScreen() {
   const route = useRouter();
