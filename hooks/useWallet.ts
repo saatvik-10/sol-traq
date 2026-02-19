@@ -20,7 +20,7 @@ const APP_IDENTITY = {
 };
 
 export function useWallet() {
-  const [pubKey, setPubKey] = useState<PublicKey | null>(null);
+  const [publicKey, setPublicKey] = useState<PublicKey | null>(null);
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
   const isDevnet = useWalletStore((s) => s.isDevnet);
@@ -42,8 +42,8 @@ export function useWallet() {
       const pubkey = new PublicKey(
         Buffer.from(authResult.accounts[0].address, 'base64'),
       );
-      setPubKey(pubKey);
-      return pubKey;
+      setPublicKey(pubkey);
+      return pubkey;
     } catch (err) {
       console.log('Wallet connection failed', err);
       throw err;
@@ -53,21 +53,21 @@ export function useWallet() {
   }, [cluster]);
 
   const disconnect = useCallback(() => {
-    setPubKey(null);
+    setPublicKey(null);
   }, []);
 
   const getBalance = useCallback(async () => {
-    if (!pubKey) {
+    if (!publicKey) {
       throw new Error('No wallet found');
     }
 
-    const balance = await connection.getBalance(pubKey);
+    const balance = await connection.getBalance(publicKey);
     return balance / LAMPORTS_PER_SOL;
   }, []);
 
   const sendSOL = useCallback(
     async (toAddr: string, amount: number) => {
-      if (!pubKey) throw new Error('Wallet not connected');
+      if (!publicKey) throw new Error('Wallet not connected');
 
       setIsSending(true);
       try {
@@ -75,7 +75,7 @@ export function useWallet() {
 
         const transaction = new Transaction().add(
           SystemProgram.transfer({
-            fromPubkey: pubKey,
+            fromPubkey: publicKey,
             toPubkey: toPubKey,
             lamports: Math.round(amount * LAMPORTS_PER_SOL),
           }),
@@ -83,7 +83,7 @@ export function useWallet() {
 
         const { blockhash } = await connection.getLatestBlockhash();
         transaction.recentBlockhash = blockhash;
-        transaction.feePayer = pubKey;
+        transaction.feePayer = publicKey;
 
         const txnSig = await transact(async (wallet: Web3MobileWallet) => {
           await wallet.authorize({
@@ -104,12 +104,12 @@ export function useWallet() {
         setIsSending(false);
       }
     },
-    [pubKey, connection, cluster],
+    [publicKey, connection, cluster],
   );
 
   return {
-    pubKey,
-    connected: !!pubKey,
+    publicKey,
+    isConnected: !!publicKey,
     isConnecting,
     isSending,
     connect,
