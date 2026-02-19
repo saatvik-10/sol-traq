@@ -530,4 +530,36 @@ export const s = StyleSheet.create({
     fontWeight: '600',
     fontFamily: 'monospace',
   },
+  backButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  inputGroup: { marginBottom: 16 },
+  inputLabel: {
+    color: '#888',
+    fontSize: 12,
+    textTransform: 'uppercase',
+    marginBottom: 8,
+  },
+  sendButton: {
+    backgroundColor: '#14F195',
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  sendButtonDisabled: {
+    opacity: 0.5,
+  },
+  sendButtonText: {
+    color: '#0a0a1a',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  feeText: {
+    color: '#555',
+    fontSize: 12,
+    textAlign: 'center',
+    marginTop: 12,
+  },
 });
