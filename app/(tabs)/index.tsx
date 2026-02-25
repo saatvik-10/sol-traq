@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -21,6 +21,9 @@ import { short, timeAgo } from '../../utils/lib';
 import { s } from '../../styles';
 import { useWalletStore } from '../../stores/wallet-store';
 import FavoriteButton from '../../components/FavoritesBtn';
+import { ConnectButton } from '../../components/WalletBtn';
+import { useWallet } from '../../hooks/useWallet';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function WalletScreen() {
   const route = useRouter();
@@ -34,6 +37,8 @@ export default function WalletScreen() {
   const searchHistory = useWalletStore((s) => s.searchHistory);
   const toggleNetwork = useWalletStore((s) => s.toggleNetwork);
   const isDevnet = useWalletStore((s) => s.isDevnet);
+
+  const wallet = useWallet();
 
   const search = async () => {
     const addr = address.trim();
@@ -88,6 +93,17 @@ export default function WalletScreen() {
     setTxns([]);
   };
 
+  const prevConnected = useRef(false);
+
+  useEffect(() => {
+    if (wallet.isConnected && wallet.publicKey && !prevConnected.current) {
+      const addr = wallet.publicKey.toBase58();
+      setAddress(addr);
+      searchFromHistory(addr);
+    }
+    prevConnected.current = wallet.isConnected;
+  }, [wallet.isConnected, wallet.publicKey]);
+
   return (
     <SafeAreaView style={s.safe} edges={['top']}>
       <KeyboardAvoidingView
@@ -97,13 +113,34 @@ export default function WalletScreen() {
         <ScrollView style={s.scroll}>
           <View style={s.header}>
             <Text style={s.title}>$ol_traq</Text>
+
             <TouchableOpacity style={s.networkToggle} onPress={toggleNetwork}>
               <View style={[s.networkDot, isDevnet && s.networkDotDevnet]} />
               <Text style={s.networkText}>
                 {isDevnet ? 'Devnet' : 'Mainnet'}
               </Text>
             </TouchableOpacity>
+            <ConnectButton
+              isConnected={wallet.isConnected}
+              isConnecting={wallet.isConnecting}
+              pubkey={wallet.publicKey?.toBase58() ?? null}
+              onConnect={wallet.connect}
+              onDisconnect={wallet.disconnect}
+            />
           </View>
+
+          {wallet.isConnected && (
+            <TouchableOpacity
+              // style={s.sendNav}
+              onPress={() => route.push('/send')}
+            >
+              <Ionicons name='paper-plane' size={20} color='#0a0a1a' />
+              <Text style={''}>Send SOL</Text>
+            </TouchableOpacity>
+          )}
+
+          {/* {wallet.isConnected && <ConnectedWalletCard wallet={wallet} />} */}
+
           <Text style={s.subtitle}>Explore any Solana wallet</Text>
 
           <View style={s.inputContainer}>
