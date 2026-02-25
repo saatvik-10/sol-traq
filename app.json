@@ -38,8 +38,6 @@
       }
     },
     "owner": "saatvik10s-organization",
-    "plugins": [
-      "expo-router"
-    ]
+    "plugins": ["expo-router", "expo-dev-client"]
   }
 }
