@@ -1,4 +1,5 @@
 export const JUPITER_API = 'https://quote-api.jup.ag/v6';
+export const JUPITER_PRICE_API = 'https://price.jup.ag/v6';
 
 export const TOKENS = {
   SOL: 'So11111111111111111111111111111111111111112', // Wrapped SOL
