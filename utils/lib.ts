@@ -12,3 +12,14 @@ export const shortenAddress = (addr: string) => {
   const address = `${addr.slice(0, 6)}...${addr.slice(-4)}`;
   return address;
 };
+
+export function toSmallestUnits(amount: number, decimals: number): number {
+  return Math.round(amount * Math.pow(10, decimals));
+}
+
+export function fromSmallestUnit(
+  amount: number | string,
+  decimals: number,
+): number {
+  return Number(amount) / Math.pow(10, decimals);
+}
