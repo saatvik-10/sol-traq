@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { WalletScreen } from './src/screens/WalletScreen';
-import { SwapScreen } from './src/screens/SwapScreen';
+import WalletScreen from './app/(tabs)/index';
+import SwapScreen from './app/(tabs)/swap';
 import { s } from './styles';
 
 export default function App() {
