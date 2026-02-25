@@ -1,7 +1,7 @@
 import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useWalletStore } from '../../stores/wallet-store';
-import { s } from '../../styles';
+import { useWalletStore } from '../stores/wallet-store';
+import { s } from '../styles';
 
 interface Props {
   address: string;
