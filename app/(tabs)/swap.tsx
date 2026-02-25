@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -10,27 +10,132 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { s } from '../../styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  TOKENS,
+  TOKEN_INFO,
+  JUPITER_API,
+  JUPITER_PRICE_API,
+} from '../../utils/tokens';
+import {
+  getSwapQuote,
+  getSwapTxn,
+  getTokenPrice,
+} from '../../services/jupiter';
+import { useWallet } from '../../hooks/useWallet';
+import {
+  transact,
+  Web3MobileWallet,
+} from '@solana-mobile/mobile-wallet-adapter-protocol-web3js';
+import { Transaction, VersionedTransaction } from '@solana/web3.js';
+import { fromSmallestUnit, toSmallestUnits } from '../../utils/lib';
 
 export default function SwapScreen() {
-  const [fromAmount, setFromAmount] = useState('100');
-  const [toAmount, setToAmount] = useState('0.28014');
-  const [fromToken, setFromToken] = useState('SOL');
-  const [toToken, setToToken] = useState('USDC');
+  const wallet = useWallet();
+
+  const [fromAmount, setFromAmount] = useState('');
+  const [toAmount, setToAmount] = useState('');
+  const [fromToken, setFromToken] = useState(TOKENS.SOL);
+  const [toToken, setToToken] = useState(TOKENS.USDC);
+
+  const [quoteData, setQuoteData] = useState<any>(null);
+  const [swapping, setSwapping] = useState(false);
+  const [priceImpact, setPriceImpact] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const inputInfo = TOKEN_INFO[fromToken];
+  const outputInfo = TOKEN_INFO[toToken];
+
+  const fetchQuote = useCallback(async () => {
+    if (!fromAmount || Number(fromAmount) <= 0) {
+      setToAmount('');
+      setQuoteData(null);
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const amountInSmallest = toSmallestUnits(
+        Number(fromAmount),
+        inputInfo.decimals,
+      );
+
+      const quote = await getSwapQuote(fromToken, toToken, amountInSmallest);
+
+      (setQuoteData(quote),
+        setToAmount(
+          fromSmallestUnit(quote.toAmount, outputInfo.decimals).toFixed(
+            outputInfo.decimals > 6 ? 4 : 2,
+          ),
+        ),
+        setPriceImpact(quote.priceImpact));
+    } catch (err: any) {
+      console.log('Quotation Err!', err);
+      setToAmount('Err');
+      setQuoteData(null);
+    } finally {
+      setLoading(false);
+    }
+  }, [fromAmount, fromToken, toToken]);
+
+  useEffect(() => {
+    const timer = setTimeout(fetchQuote, 500);
+    return () => clearTimeout(timer);
+  }, [fetchQuote]);
 
   const swapTokens = () => {
     setFromToken(toToken);
     setToToken(fromToken);
     setFromAmount(toAmount);
-    setToAmount(fromAmount);
+    setToAmount('');
+    setQuoteData(null);
   };
 
-  const handleSwap = () => {
-    if (!fromAmount) return Alert.alert('Please enter an amount!');
+  const handleSwap = async () => {
+    if (!wallet.isConnected || !wallet.publicKey) {
+      return Alert.alert('Please connect your wallet to continue!');
+    }
 
-    Alert.alert(
-      'Swap',
-      `Swapping ${fromAmount} ${fromToken} to ${toAmount} ${toToken}`,
-    );
+    if (!quoteData) return Alert.alert('Quotation is missing!');
+
+    setSwapping(true);
+
+    try {
+      const swapTxn = await getSwapTxn(quoteData, wallet.publicKey.toBase58());
+
+      const swapTxnBuffer = Buffer.from(swapTxn, 'base64');
+      const txn = VersionedTransaction.deserialize(swapTxnBuffer);
+
+      const sig = await transact(async (mobileWallet: Web3MobileWallet) => {
+        await mobileWallet.authorize({
+          chain: 'solana:mainnet-beta',
+          identity: {
+            name: 'Sol-Traq',
+            uri: 'https://solscan.io',
+            icon: '',
+          },
+        });
+
+        const sigs = await mobileWallet.signAndSendTransactions({
+          transactions: [txn],
+        });
+
+        return sigs[0];
+      });
+
+      Alert.alert(
+        'Swap Successful!',
+        `Swapped ${fromAmount} ${inputInfo.symbol} → ${toAmount} ${outputInfo.symbol}`,
+      );
+
+      setFromAmount('');
+      setToAmount('');
+      setQuoteData(null);
+    } catch (error: any) {
+      Alert.alert('Swap Failed', error.message);
+    } finally {
+      setSwapping(false);
+    }
   };
 
   return (
