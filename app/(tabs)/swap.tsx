@@ -4,8 +4,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { s } from '../../styles';
@@ -13,8 +13,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   TOKENS,
   TOKEN_INFO,
-  JUPITER_API,
-  JUPITER_PRICE_API,
 } from '../../utils/tokens';
 import {
   getSwapQuote,
@@ -26,7 +24,7 @@ import {
   transact,
   Web3MobileWallet,
 } from '@solana-mobile/mobile-wallet-adapter-protocol-web3js';
-import { Transaction, VersionedTransaction } from '@solana/web3.js';
+import { VersionedTransaction } from '@solana/web3.js';
 import { fromSmallestUnit, toSmallestUnits } from '../../utils/lib';
 
 export default function SwapScreen() {
@@ -139,65 +137,98 @@ export default function SwapScreen() {
   };
 
   return (
-    <SafeAreaView style={s.safe} edges={['top']}>
-      <ScrollView style={s.scroll} contentContainerStyle={s.content}>
-        <Text style={s.title}>Swap Tokens</Text>
-        <View style={[s.card, { marginBottom: 10 }]}>
-          <View style={s.cardHeader}>
-            <TouchableOpacity style={s.tokenSelector}>
-              <View style={[s.tokenIcon, { backgroundColor: '#9945FF' }]}>
-                <Text style={s.tokenIconText}>S</Text>
-              </View>
-              <Text style={s.tokenName}>{fromToken}</Text>
-              <Ionicons name='chevron-down' size={18} color='#888' />
-            </TouchableOpacity>
-            <TextInput
-              style={s.amountInput}
-              value={fromAmount}
-              onChangeText={setFromAmount}
-              keyboardType='numeric'
-              placeholder='0'
-              placeholderTextColor='#666'
-            />
-          </View>
-          <View style={s.cardFooter}>
-            <Text style={s.balanceText}>Balance: 0.0661 {fromToken}</Text>
+    <View style={s.container}>
+      <Text style={s.title}>🔄 Swap</Text>
+
+      <View style={s.tokenCard}>
+        <Text style={s.tokenLabel}>You Pay</Text>
+        <View style={s.tokenRow}>
+          <TextInput
+            style={s.amountInput}
+            placeholder='0.0'
+            placeholderTextColor='#555'
+            value={fromAmount}
+            onChangeText={setFromAmount}
+            keyboardType='decimal-pad'
+          />
+          <View style={s.tokenBadge}>
+            <Text style={s.tokenSymbol}>{inputInfo.symbol}</Text>
           </View>
         </View>
+      </View>
 
-        <View style={s.arrowContainer}>
-          <TouchableOpacity style={s.swapArrow} onPress={swapTokens}>
-            <Ionicons name='swap-vertical-outline' size={22} color='#000' />
-          </TouchableOpacity>
-        </View>
+      <TouchableOpacity style={s.flipButton} onPress={swapTokens}>
+        <Ionicons name='swap-vertical' size={24} color='#14F195' />
+      </TouchableOpacity>
 
-        <View style={[s.card, { marginBottom: 10 }]}>
-          <View style={s.cardHeader}>
-            <TouchableOpacity style={s.tokenSelector}>
-              <View style={[s.tokenIcon, { backgroundColor: '#2775CA' }]}>
-                <Text style={s.tokenIconText}>U</Text>
-              </View>
-              <Text style={s.tokenName}>{toToken}</Text>
-              <Ionicons name='chevron-down' size={18} color='#888' />
-            </TouchableOpacity>
-            <TextInput
-              style={s.amountInput}
-              value={toAmount}
-              onChangeText={setToAmount}
-              keyboardType='numeric'
-              placeholder='0'
-              placeholderTextColor='#666'
-            />
+      <View style={s.tokenCard}>
+        <Text style={s.tokenLabel}>You Receive</Text>
+        <View style={s.tokenRow}>
+          <View style={s.outputAmount}>
+            {loading ? (
+              <ActivityIndicator color='#14F195' />
+            ) : (
+              <Text style={s.outputText}>{toAmount || '0.0'}</Text>
+            )}
           </View>
-          <View style={s.cardFooter}>
-            <Text style={s.usdText}>$499.749</Text>
+          <View style={s.tokenBadge}>
+            <Text style={s.tokenSymbol}>{outputInfo.symbol}</Text>
           </View>
         </View>
+      </View>
 
-        <TouchableOpacity style={s.swapBtn} onPress={handleSwap}>
-          <Text style={s.swapBtnText}>Swap</Text>
+      {quoteData && (
+        <View style={s.details}>
+          <View style={s.detailRow}>
+            <Text style={s.detailLabel}>Rate</Text>
+            <Text style={s.detailValue}>
+              1 {inputInfo.symbol} ≈{' '}
+              {(Number(toAmount) / Number(fromAmount)).toFixed(4)}{' '}
+              {outputInfo.symbol}
+            </Text>
+          </View>
+          {priceImpact && (
+            <View style={s.detailRow}>
+              <Text style={s.detailLabel}>Price Impact</Text>
+              <Text
+                style={[
+                  s.detailValue,
+                  Number(priceImpact) > 1 && { color: '#FF4545' },
+                ]}
+              >
+                {Number(priceImpact).toFixed(2)}%
+              </Text>
+            </View>
+          )}
+          <View style={s.detailRow}>
+            <Text style={s.detailLabel}>Slippage</Text>
+            <Text style={s.detailValue}>0.5%</Text>
+          </View>
+        </View>
+      )}
+
+      {wallet.isConnected ? (
+        <TouchableOpacity
+          style={[
+            s.swapButton,
+            (!quoteData || swapping) && s.swapButtonDisabled,
+          ]}
+          onPress={handleSwap}
+          disabled={!quoteData || swapping}
+        >
+          {swapping ? (
+            <ActivityIndicator color='#0a0a1a' />
+          ) : (
+            <Text style={s.swapButtonText}>
+              {quoteData ? 'Swap' : 'Enter an amount'}
+            </Text>
+          )}
         </TouchableOpacity>
-      </ScrollView>
-    </SafeAreaView>
+      ) : (
+        <TouchableOpacity style={s.connectButton} onPress={wallet.connect}>
+          <Text style={s.connectButtonText}>Connect Wallet to Swap</Text>
+        </TouchableOpacity>
+      )}
+    </View>
   );
 }
