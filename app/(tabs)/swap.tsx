@@ -110,7 +110,7 @@ export default function SwapScreen() {
         await mobileWallet.authorize({
           chain: 'solana:mainnet-beta',
           identity: {
-            name: 'Sol-Traq',
+            name: '$ol-Traq',
             uri: 'https://solscan.io',
             icon: '',
           },
